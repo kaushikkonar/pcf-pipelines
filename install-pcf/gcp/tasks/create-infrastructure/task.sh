@@ -59,6 +59,10 @@ terraform plan \
   -var "db_locket_password=${DB_LOCKET_PASSWORD}" \
   -var "db_silk_username=${DB_SILK_USERNAME}" \
   -var "db_silk_password=${DB_SILK_PASSWORD}" \
+  -var "cidr_ops=${GCP_RESOURCE_CIDR_OPS}" \
+  -var "cidr_ert=${GCP_RESOURCE_CIDR_ERT}" \
+  -var "cidr_svc=${GCP_RESOURCE_CIDR_SVC}" \
+  -var "cidr_dynsvc=${GCP_RESOURCE_CIDR_DYNSVC}" \
   -out terraform.tfplan \
   -state terraform-state/terraform.tfstate \
   pcf-pipelines/install-pcf/gcp/terraform

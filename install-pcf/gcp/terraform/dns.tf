@@ -5,7 +5,7 @@ resource "google_dns_managed_zone" "env_dns_zone" {
 }
 
 resource "google_dns_record_set" "ops-manager-dns" {
-  name = "opsman.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  name = "opsmgr.${google_dns_managed_zone.env_dns_zone.dns_name}"
   type = "A"
   ttl  = 300
 
@@ -25,7 +25,7 @@ resource "google_dns_record_set" "wildcard-sys-dns" {
 }
 
 resource "google_dns_record_set" "wildcard-apps-dns" {
-  name = "*.cfapps.${google_dns_managed_zone.env_dns_zone.dns_name}"
+  name = "*.apps.${google_dns_managed_zone.env_dns_zone.dns_name}"
   type = "A"
   ttl  = 300
 
