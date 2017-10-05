@@ -1,6 +1,6 @@
 resource "google_dns_managed_zone" "env_dns_zone" {
   name        = "${var.prefix}-zone"
-  dns_name    = "${var.pcf_ert_domain}"
+  dns_name    = "${var.pcf_ert_domain}."
   description = "DNS zone (var.pcf_ert_domain) for the var.prefix deployment"
 }
 
