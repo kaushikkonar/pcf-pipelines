@@ -7,7 +7,7 @@ image_resource:
     repository: czero/cflinuxfs2
 
 inputs:
-- name: pcf-pipelines 
+- name: pcf-pipelines
 - name: pivnet-opsmgr
 - name: terraform-state
 
@@ -50,6 +50,10 @@ params:
   DB_LOCKET_PASSWORD:
   DB_SILK_USERNAME:
   DB_SILK_PASSWORD:
+  GCP_RESOURCE_CIDR_OPS:
+  GCP_RESOURCE_CIDR_ERT:
+  GCP_RESOURCE_CIDR_SVC:
+  GCP_RESOURCE_CIDR_DYNSVC:
 
 run:
   path: pcf-pipelines/install-pcf/gcp/tasks/create-infrastructure/task.sh
