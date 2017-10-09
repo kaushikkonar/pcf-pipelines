@@ -30,36 +30,35 @@ az_configuration=$(
 network_configuration=$(
   jq -n \
     --argjson icmp_checks_enabled false \
-    --arg infra_network_name "infrastructure" \
-    --arg infra_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/${GCP_RESOURCE_PREFIX}-subnet-infrastructure-${GCP_REGION}/${GCP_REGION}" \
-    --arg infra_network_cidr "192.168.101.0/26" \
-    --arg infra_reserved_ip_ranges "192.168.101.1-192.168.101.9" \
-    --arg infra_dns "192.168.101.1,8.8.8.8" \
-    --arg infra_gateway "192.168.101.1" \
+    --arg infra_network_name "infra" \
+    --arg infra_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/infra/${GCP_REGION}" \
+    --arg infra_network_cidr "${GCP_RESOURCE_CIDR_OPS}" \
+    --arg infra_reserved_ip_ranges "${GCP_RESERVED_OPS_IPS}" \
+    --arg infra_dns "${GCP_DNS_IP},8.8.8.8" \
+    --arg infra_gateway "${GCP_OPS_GW}" \
     --arg infra_availability_zones "$availability_zones" \
     --arg deployment_network_name "ert" \
-    --arg deployment_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/${GCP_RESOURCE_PREFIX}-subnet-ert-${GCP_REGION}/${GCP_REGION}" \
-    --arg deployment_network_cidr "192.168.16.0/22" \
-    --arg deployment_reserved_ip_ranges "192.168.16.1-192.168.16.9" \
-    --arg deployment_dns "192.168.16.1,8.8.8.8" \
-    --arg deployment_gateway "192.168.16.1" \
+    --arg deployment_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/ert/${GCP_REGION}" \
+    --arg deployment_network_cidr "${GCP_RESOURCE_CIDR_ERT}" \
+    --arg deployment_reserved_ip_ranges "${GCP_RESERVED_ERT_IPS}" \
+    --arg deployment_dns "${GCP_DNS_IP},8.8.8.8"  \
+    --arg deployment_gateway "${GCP_ERT_GW}" \
     --arg deployment_availability_zones "$availability_zones" \
-    --argjson services_network_is_service_network true \
-    --arg services_network_name "services-1" \
-    --arg services_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/${GCP_RESOURCE_PREFIX}-subnet-services-1-${GCP_REGION}/${GCP_REGION}" \
-    --arg services_network_cidr "192.168.20.0/22" \
-    --arg services_reserved_ip_ranges "192.168.20.1-192.168.20.9" \
-    --arg services_dns "192.168.20.1,8.8.8.8" \
-    --arg services_gateway "192.168.20.1" \
+    --arg services_network_name "svcs" \
+    --arg services_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/svcs/${GCP_REGION}" \
+    --arg services_network_cidr "${GCP_RESOURCE_CIDR_SVC}" \
+    --arg services_reserved_ip_ranges "${GCP_RESERVED_SVC_IPS}" \
+    --arg services_dns "${GCP_DNS_IP},8.8.8.8" \
+    --arg services_gateway "${GCP_SVC_GW}" \
     --arg services_availability_zones "$availability_zones" \
-    --argjson dynamic_services_network_is_service_network true \
-    --arg dynamic_services_network_name "dynamic-services-1" \
-    --arg dynamic_services_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/${GCP_RESOURCE_PREFIX}-subnet-dynamic-services-1-${GCP_REGION}/${GCP_REGION}" \
-    --arg dynamic_services_network_cidr "192.168.24.0/22" \
-    --arg dynamic_services_reserved_ip_ranges "192.168.24.1-192.168.24.9" \
-    --arg dynamic_services_dns "192.168.24.1,8.8.8.8" \
-    --arg dynamic_services_gateway "192.168.24.1" \
+    --arg dynamic_services_network_name "dyn-svcs" \
+    --arg dynamic_services_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/dyn-svcs/${GCP_REGION}" \
+    --arg dynamic_services_network_cidr "${GCP_RESOURCE_CIDR_DYNSVC}" \
+    --arg dynamic_services_reserved_ip_ranges "${GCP_RESERVED_DYNSVC_IPS}" \
+    --arg dynamic_services_dns "${GCP_DNS_IP},8.8.8.8" \
+    --arg dynamic_services_gateway "${GCP_DYNSVC_GW}" \
     --arg dynamic_services_availability_zones "$availability_zones" \
+    --argjson dynamic_services_network_is_service_network true \
     '
     {
       "icmp_checks_enabled": $icmp_checks_enabled,
@@ -126,7 +125,7 @@ network_configuration=$(
 
 director_config=$(cat <<-EOF
 {
-  "ntp_servers_string": "0.pool.ntp.org",
+  "ntp_servers_string": "metadata.google.internal",
   "resurrector_enabled": true,
   "retry_bosh_deploys": true,
   "database_type": "internal",
@@ -138,10 +137,11 @@ EOF
 resource_configuration=$(cat <<-EOF
 {
   "director": {
-    "internet_connected": false
+    "internet_connected": true
   },
   "compilation": {
-    "internet_connected": false
+    "internet_connected": true
+    "instance_type”: xlarge
   }
 }
 EOF
@@ -160,7 +160,7 @@ security_configuration=$(
 network_assignment=$(
   jq -n \
     --arg availability_zones "$availability_zones" \
-    --arg network "infrastructure" \
+    --arg network "infra" \
     '
     {
       "singleton_availability_zone": ($availability_zones | split(",") | .[0]),
