@@ -10,7 +10,6 @@ inputs:
 - name: pcf-pipelines
 
 params:
-  opsman_domain_or_ip_address:
-
+  OPSMAN_DOMAIN_OR_IP_ADDRESS:
 run:
   path: pcf-pipelines/install-pcf/gcp/tasks/check-opsman-dns/task.sh
