@@ -49,3 +49,5 @@ variable "cidr_ops" {}
 variable "cidr_ert" {}
 variable "cidr_svc" {}
 variable "cidr_dynsvc" {}
+
+variable "opsman_domain_or_ip_address" {}
