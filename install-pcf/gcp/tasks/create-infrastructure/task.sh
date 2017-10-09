@@ -82,7 +82,7 @@ cd -
 
 echo "Please configure DNS as follows:"
 echo "----------------------------------------------------------------------------------------------"
-echo "*.sys.${PCF_ERT_DOMAIN} == ${pub_ip_global_pcf}"
+echo "*.system.${PCF_ERT_DOMAIN} == ${pub_ip_global_pcf}"
 echo "*.cfapps.${PCF_ERT_DOMAIN} == ${pub_ip_global_pcf}"
 echo "ssh.sys.${PCF_ERT_DOMAIN} == ${pub_ip_ssh_and_doppler}"
 echo "doppler.sys.${PCF_ERT_DOMAIN} == ${pub_ip_ssh_and_doppler}"
