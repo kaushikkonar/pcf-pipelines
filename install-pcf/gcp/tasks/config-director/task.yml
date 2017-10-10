@@ -34,6 +34,10 @@ params:
   GCP_RESOURCE_CIDR_DYNSVC :
   GCP_RESERVED_DYNSVC_IPS:
   GCP_DYNSVC_GW:
+  DB_HOST:
+  DB_USERNAME:
+  RDS_PASSWORD:
+  DB_DATABASE:
 
 run:
   path: pcf-pipelines/install-pcf/gcp/tasks/config-director/task.sh

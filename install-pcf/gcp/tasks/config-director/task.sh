@@ -129,7 +129,14 @@ director_config=$(cat <<-EOF
   "ntp_servers_string": "metadata.google.internal",
   "resurrector_enabled": true,
   "retry_bosh_deploys": true,
-  "database_type": "internal",
+  "database_type": "external",
+  "external_database_options": {
+    "host": "$DB_HOST",
+    "port": 3306,
+    "user": "$DB_USERNAME",
+    "password": "$RDS_PASSWORD",
+    "database": "$DB_DATABASE"
+  },
   "blobstore_type": "local"
 }
 EOF
@@ -142,7 +149,7 @@ resource_configuration=$(cat <<-EOF
   },
   "compilation": {
     "internet_connected": true,
-    "instance_type": {"id":"large"}
+    "instance_type": {"id":"xlarge"}
   }
 }
 EOF
