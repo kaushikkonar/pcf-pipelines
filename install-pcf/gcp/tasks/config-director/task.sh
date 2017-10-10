@@ -51,6 +51,7 @@ network_configuration=$(
     --arg services_dns "${GCP_DNS_IP},8.8.8.8" \
     --arg services_gateway "${GCP_SVC_GW}" \
     --arg services_availability_zones "$availability_zones" \
+    --argjson services_network_is_service_network false \
     --arg dynamic_services_network_name "dyn-svcs" \
     --arg dynamic_services_vcenter_network "${GCP_RESOURCE_PREFIX}-virt-net/dyn-svcs/${GCP_REGION}" \
     --arg dynamic_services_network_cidr "${GCP_RESOURCE_CIDR_DYNSVC}" \
