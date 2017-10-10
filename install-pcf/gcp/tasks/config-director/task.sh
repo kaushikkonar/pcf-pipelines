@@ -137,7 +137,7 @@ director_config=$(cat <<-EOF
     "password": "$RDS_PASSWORD",
     "database": "$DB_DATABASE"
   },
-  "blobstore_type": "s3"
+  "blobstore_type": "s3",
   "s3_blobstore_options": {
     "endpoint": "$S3_ENDPOINT",
     "bucket_name": "$S3_BUCKET",
