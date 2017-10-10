@@ -142,7 +142,7 @@ resource_configuration=$(cat <<-EOF
   },
   "compilation": {
     "internet_connected": true,
-    "instance_type": {"id":"xlarge"}
+    "instance_type": {"id":"large"}
   }
 }
 EOF
