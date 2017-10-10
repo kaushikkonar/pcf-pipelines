@@ -137,7 +137,14 @@ director_config=$(cat <<-EOF
     "password": "$RDS_PASSWORD",
     "database": "$DB_DATABASE"
   },
-  "blobstore_type": "local"
+  "blobstore_type": "s3"
+  "s3_blobstore_options": {
+    "endpoint": "$S3_ENDPOINT",
+    "bucket_name": "$S3_BUCKET",
+    "access_key": "$GCP_STORAGE_ACCESS_KEY",
+    "secret_key": "$GCP_STORAGE_SECRET_KEY",
+    "region": "$GCP_STORAGE_BUCKET_LOCATION"
+  }
 }
 EOF
 )

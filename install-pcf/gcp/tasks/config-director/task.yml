@@ -38,6 +38,11 @@ params:
   DB_USERNAME:
   RDS_PASSWORD:
   DB_DATABASE:
+  S3_ENDPOINT:
+  S3_BUCKET:
+  GCP_STORAGE_ACCESS_KEY:
+  GCP_STORAGE_SECRET_KEY:
+  GCP_STORAGE_BUCKET_LOCATION:
 
 run:
   path: pcf-pipelines/install-pcf/gcp/tasks/config-director/task.sh
