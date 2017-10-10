@@ -141,7 +141,7 @@ resource_configuration=$(cat <<-EOF
     "internet_connected": true
   },
   "compilation": {
-    "internet_connected": true
+    "internet_connected": true,
     "instance_type": xlarge
   }
 }
