@@ -216,7 +216,7 @@ cf_properties=$(
     --arg smtp_user "$smtp_user" \
     --arg smtp_password "$smtp_password" \
     --arg smtp_auth_mechanism "$smtp_auth_mechanism" \
-    --arg company "$company"\
+    --arg company "$COMPANY"\
     '
     {
       ".uaa.service_provider_key_credentials": {
