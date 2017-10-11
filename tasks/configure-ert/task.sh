@@ -1,14 +1,14 @@
 #!/bin/bash
 set -eu
 
-export OPSMAN_DOMAIN_OR_IP_ADDRESS="opsman.$pcf_ert_domain"
+export OPSMAN_DOMAIN_OR_IP_ADDRESS="opsmgr.$pcf_ert_domain"
 
 source pcf-pipelines/functions/generate_cert.sh
 
 if [[ ${pcf_ert_ssl_cert} == "" || ${pcf_ert_ssl_cert} == "generate" ]]; then
   domains=(
-    "*.sys.${pcf_ert_domain}"
-    "*.cfapps.${pcf_ert_domain}"
+    "*.system.${pcf_ert_domain}"
+    "*.apps.${pcf_ert_domain}"
   )
 
   certificates=$(generate_cert "${domains[*]}")
@@ -17,9 +17,9 @@ if [[ ${pcf_ert_ssl_cert} == "" || ${pcf_ert_ssl_cert} == "generate" ]]; then
 fi
 
 saml_domains=(
-  "*.sys.${pcf_ert_domain}"
-  "*.login.sys.${pcf_ert_domain}"
-  "*.uaa.sys.${pcf_ert_domain}"
+  "*.system.${pcf_ert_domain}"
+  "*.login.system.${pcf_ert_domain}"
+  "*.uaa.system.${pcf_ert_domain}"
 )
 
 saml_certificates=$(generate_cert "${saml_domains[*]}")
@@ -73,46 +73,60 @@ cf_resources=$(
     --arg iaas $pcf_iaas \
     '
     {
-      "consul_server": {"internet_connected": false},
-      "nats": {"internet_connected": false},
-      "nfs_server": {"internet_connected": false},
+      "consul_server": {"internet_connected": true},
+      "nats": {"internet_connected": true},
+      "etcd_tls_server": {"internet_connected": true},
       "mysql_proxy": {
         "instances": 0,
-        "internet_connected": false
+        "internet_connected": true
       },
       "mysql": {
         "instances": 0,
-        "internet_connected": false
+        "internet_connected": true
       },
-      "backup-prepare": {"internet_connected": false},
-      "diego_database": {"internet_connected": false},
-      "uaa": {"internet_connected": false},
-      "cloud_controller": {"internet_connected": false},
-      "ha_proxy": {"internet_connected": false},
-      "router": {"internet_connected": false},
+      "backup-prepare": {
+        "instances": 0,
+        "internet_connected": true
+      },
+      "ccdb": {
+        "instances": 0,
+        "internet_connected": true
+      },
+      "diego_database": {"internet_connected": true},
+      "uaadb": {
+        "instances": 0,
+        "internet_connected": true
+      },
+      "uaa": {"internet_connected": true},
+      "cloud_controller": {"internet_connected": true},
+      "ha_proxy": {"internet_connected": true},
+      "router": {"internet_connected": true},
       "mysql_monitor": {
         "instances": 0,
-        "internet_connected": false
+        "internet_connected": true
       },
-      "clock_global": {"internet_connected": false},
-      "cloud_controller_worker": {"internet_connected": false},
-      "diego_brain": {"internet_connected": false},
-      "diego_cell": {"internet_connected": false},
-      "loggregator_trafficcontroller": {"internet_connected": false},
-      "syslog_adapter": {"internet_connected": false},
-      "syslog_scheduler": {"internet_connected": false},
-      "doppler": {"internet_connected": false},
-      "tcp_router": {"internet_connected": false},
-      "smoke-tests": {"internet_connected": false},
-      "push-apps-manager": {"internet_connected": false},
-      "notifications": {"internet_connected": false},
-      "notifications-ui": {"internet_connected": false},
-      "push-pivotal-account": {"internet_connected": false},
-      "autoscaling": {"internet_connected": false},
-      "autoscaling-register-broker": {"internet_connected": false},
-      "nfsbrokerpush": {"internet_connected": false},
-      "bootstrap": {"internet_connected": false},
-      "mysql-rejoin-unsafe": {"internet_connected": false}
+      "clock_global": {"internet_connected": true},
+      "cloud_controller_worker": {"internet_connected": true},
+      "diego_brain": {"internet_connected": true},
+      "diego_cell": {"internet_connected": true},
+      "loggregator_trafficcontroller": {"internet_connected": true},
+      "syslog_adapter": {"internet_connected": true},
+      "syslog_scheduler": {"internet_connected": true},
+      "doppler": {"internet_connected": true},
+      "tcp_router": {
+        "instances": 0,
+        "internet_connected": true
+      },
+      "smoke-tests": {"internet_connected": true},
+      "push-apps-manager": {"internet_connected": true},
+      "notifications": {"internet_connected": true},
+      "notifications-ui": {"internet_connected": true},
+      "push-pivotal-account": {"internet_connected": true},
+      "autoscaling": {"internet_connected": true},
+      "autoscaling-register-broker": {"internet_connected": true},
+      "nfsbrokerpush": {"internet_connected": true},
+      "bootstrap": {"internet_connected": true},
+      "mysql-rejoin-unsafe": {"internet_connected": true}
     }
 
     |
@@ -202,8 +216,8 @@ cf_properties=$(
       },
       ".properties.tcp_routing": { "value": "disable" },
       ".properties.route_services": { "value": "enable" },
-      ".ha_proxy.skip_cert_verify": { "value": true },
-      ".properties.route_services.enable.ignore_ssl_cert_verification": { "value": true },
+      ".ha_proxy.skip_cert_verify": { "value": false },
+      ".properties.route_services.enable.ignore_ssl_cert_verification": { "value": false },
       ".properties.security_acknowledgement": { "value": "X" },
       ".properties.system_database": { "value": "external" },
       ".properties.system_database.external.port": { "value": "3306" },
@@ -236,7 +250,7 @@ cf_properties=$(
       ".properties.uaa_database.external.uaa_username": { "value": $db_uaa_username },
       ".properties.uaa_database.external.uaa_password": { "value": { "secret": $db_uaa_password } },
       ".cloud_controller.system_domain": { "value": "sys.\($pcf_ert_domain)" },
-      ".cloud_controller.apps_domain": { "value": "cfapps.\($pcf_ert_domain)" },
+      ".cloud_controller.apps_domain": { "value": "apps.\($pcf_ert_domain)" },
       ".cloud_controller.allow_app_ssh_access": { "value": true },
       ".cloud_controller.security_event_logging_enabled": { "value": true },
       ".router.disable_insecure_cookies": { "value": false },
