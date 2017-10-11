@@ -83,3 +83,4 @@ params:
   db_silk_username:
   db_silk_password:
   routing_disable_http:
+  OPSMAN_DOMAIN_OR_IP_ADDRESS:
