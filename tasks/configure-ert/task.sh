@@ -372,16 +372,7 @@ cf_properties=$(
     end
 
 
-    +
-    # SSL Termination
-    {
-      ".properties.networking_point_of_entry": {
-        "value": {
-          "cert_pem": $cert_pem,
-          "private_key_pem": $private_key_pem
-        }
-      }
-    }
+
 
     '
 )
