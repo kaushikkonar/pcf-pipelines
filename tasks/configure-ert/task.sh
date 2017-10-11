@@ -216,6 +216,7 @@ cf_properties=$(
     --arg smtp_user "$smtp_user" \
     --arg smtp_password "$smtp_password" \
     --arg smtp_auth_mechanism "$smtp_auth_mechanism" \
+    --arg company "$company"\
     '
     {
       ".uaa.service_provider_key_credentials": {
@@ -371,7 +372,18 @@ cf_properties=$(
       .
     end
 
+    +
 
+    # SSL Termination
+    {
+      ".properties.networking_point_of_entry": { "value": "external_ssl" },
+      ".properties.networking_point_of_entry.external_ssl.ssl_rsa_certificate": {
+        "value": {
+          "cert_pem": $cert_pem,
+          "private_key_pem": $private_key_pem
+        }
+      }
+    }
 
 
     '
