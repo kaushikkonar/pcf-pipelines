@@ -209,6 +209,13 @@ cf_properties=$(
     --arg mysql_backups_s3_access_key_id "$MYSQL_BACKUPS_S3_ACCESS_KEY_ID" \
     --arg mysql_backups_s3_secret_access_key "$MYSQL_BACKUPS_S3_SECRET_ACCESS_KEY" \
     --arg mysql_backups_s3_cron_schedule "$MYSQL_BACKUPS_S3_CRON_SCHEDULE" \
+    --arg smtp_address "$smtp_address" \
+    --arg smtp_from "$smtp_from" \
+    --arg smtp_address "$smtp_address" \
+    --arg smtp_port "$smtp_port" \
+    --arg smtp_user "$smtp_user" \
+    --arg smtp_password "$smtp_password" \
+    --arg smtp_auth_mechanism "$smtp_auth_mechanism" \
     '
     {
       ".uaa.service_provider_key_credentials": {
@@ -364,25 +371,7 @@ cf_properties=$(
       .
     end
 
-    +
 
-    # TCP Routing
-    if $tcp_routing == "enable" then
-     {
-       ".properties.tcp_routing": {
-          "value": "enable"
-        },
-        ".properties.tcp_routing.enable.reservable_ports": {
-          "value": $tcp_routing_ports
-        }
-      }
-    else
-      {
-        ".properties.tcp_routing": {
-          "value": "disable"
-        }
-      }
-    end
     +
     # SSL Termination
     {
