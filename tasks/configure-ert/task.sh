@@ -99,7 +99,10 @@ cf_resources=$(
       },
       "uaa": {"internet_connected": true},
       "cloud_controller": {"internet_connected": true},
-      "ha_proxy": {"internet_connected": true},
+      "ha_proxy": {
+        "instances": 0,
+        "internet_connected": true
+      },
       "router": {"internet_connected": true},
       "mysql_monitor": {
         "instances": 0,
@@ -249,12 +252,12 @@ cf_properties=$(
       ".properties.uaa_database.external.port": { "value": "3306" },
       ".properties.uaa_database.external.uaa_username": { "value": $db_uaa_username },
       ".properties.uaa_database.external.uaa_password": { "value": { "secret": $db_uaa_password } },
-      ".cloud_controller.system_domain": { "value": "sys.\($pcf_ert_domain)" },
+      ".cloud_controller.system_domain": { "value": "system.\($pcf_ert_domain)" },
       ".cloud_controller.apps_domain": { "value": "apps.\($pcf_ert_domain)" },
       ".cloud_controller.allow_app_ssh_access": { "value": true },
       ".cloud_controller.security_event_logging_enabled": { "value": true },
       ".router.disable_insecure_cookies": { "value": false },
-      ".push-apps-manager.company_name": { "value": "pcf-\($iaas)" },
+      ".push-apps-manager.company_name": { "value": "$company" },
       ".mysql_monitor.recipient_email": { "value" : $mysql_monitor_recipient_email }
     }
 
@@ -329,6 +332,67 @@ cf_properties=$(
         ".properties.mysql_backups": {"value": "disable"}
       }
     end
+
+    +
+
+    # SMTP Configuration
+    if $smtp_address != "" then
+      {
+        ".properties.smtp_from": {
+          "value": $smtp_from
+        },
+        ".properties.smtp_address": {
+          "value": $smtp_address
+        },
+        ".properties.smtp_port": {
+          "value": $smtp_port
+        },
+        ".properties.smtp_credentials": {
+          "value": {
+            "identity": $smtp_user,
+            "password": $smtp_password
+          }
+        },
+        ".properties.smtp_enable_starttls_auto": {
+          "value": true
+        },
+        ".properties.smtp_auth_mechanism": {
+          "value": $smtp_auth_mechanism
+        }
+      }
+    else
+      echo "SMTP not configured"
+    end
+
+    +
+
+    # TCP Routing
+    if $tcp_routing == "enable" then
+     {
+       ".properties.tcp_routing": {
+          "value": "enable"
+        },
+        ".properties.tcp_routing.enable.reservable_ports": {
+          "value": $tcp_routing_ports
+        }
+      }
+    else
+      {
+        ".properties.tcp_routing": {
+          "value": "disable"
+        }
+      }
+    end
+    +
+    # SSL Termination
+    {
+      ".properties.networking_point_of_entry_ssl_cert": {
+        "value": {
+          "cert_pem": $cert_pem,
+          "private_key_pem": $private_key_pem
+        }
+      }
+    }
 
     '
 )

@@ -84,3 +84,10 @@ params:
   db_silk_password:
   routing_disable_http:
   OPSMAN_DOMAIN_OR_IP_ADDRESS:
+  COMPANY:
+  smtp_address:
+  smtp_from:
+  smtp_port:
+  smtp_user:
+  smtp_password:
+  smtp_auth_mechanism:
