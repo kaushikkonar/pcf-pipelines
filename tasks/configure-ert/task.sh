@@ -361,7 +361,7 @@ cf_properties=$(
         }
       }
     else
-      echo "SMTP not configured"
+      .
     end
 
     +
