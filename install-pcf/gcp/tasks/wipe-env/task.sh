@@ -62,5 +62,6 @@ terraform destroy -force \
   -var "cidr_ert=dontcare" \
   -var "cidr_svc=dontcare" \
   -var "cidr_dynsvc=dontcare" \
+  -var "opsman_domain_or_ip_address=dontcare" \
   -state-out $root/wipe-output/terraform.tfstate \
   pcf-pipelines/install-pcf/gcp/terraform
