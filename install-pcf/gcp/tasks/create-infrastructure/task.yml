@@ -54,6 +54,7 @@ params:
   GCP_RESOURCE_CIDR_ERT:
   GCP_RESOURCE_CIDR_SVC:
   GCP_RESOURCE_CIDR_DYNSVC:
+  OPSMAN_DOMAIN_OR_IP_ADDRESS:
 
 run:
   path: pcf-pipelines/install-pcf/gcp/tasks/create-infrastructure/task.sh

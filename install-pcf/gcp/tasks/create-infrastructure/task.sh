@@ -63,6 +63,7 @@ terraform plan \
   -var "cidr_ert=${GCP_RESOURCE_CIDR_ERT}" \
   -var "cidr_svc=${GCP_RESOURCE_CIDR_SVC}" \
   -var "cidr_dynsvc=${GCP_RESOURCE_CIDR_DYNSVC}" \
+  -var "opsman_domain_or_ip_address=${OPSMAN_DOMAIN_OR_IP_ADDRESS}" \
   -out terraform.tfplan \
   -state terraform-state/terraform.tfstate \
   pcf-pipelines/install-pcf/gcp/terraform
