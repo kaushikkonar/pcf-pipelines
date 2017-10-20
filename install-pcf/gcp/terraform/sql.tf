@@ -5,7 +5,7 @@ resource "random_pet" "sql_db" {
 resource "google_sql_database_instance" "master" {
   region           = "${var.gcp_region}"
   database_version = "MYSQL_5_6"
-  name             = "${var.prefix}-db"
+  name             = "${var.prefix}-sql-db"
 
   settings {
     tier = "db-n1-standard-2"
