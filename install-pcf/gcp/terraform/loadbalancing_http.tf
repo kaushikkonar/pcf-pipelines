@@ -9,7 +9,7 @@ resource "google_compute_backend_service" "ert_http_lb_backend_service" {
   name        = "${var.prefix}-http-lb-backend"
   port_name   = "http"
   protocol    = "HTTP"
-  timeout_sec = 10
+  timeout_sec = 30
   enable_cdn  = false
 
   backend {
@@ -58,9 +58,9 @@ resource "google_compute_http_health_check" "cf" {
   //  host                = "api.sys.${google_dns_managed_zone.env_dns_zone.dns_name}"
   port                = 8080
   request_path        = "/health"
-  check_interval_sec  = 30
+  check_interval_sec  = 5
   timeout_sec         = 5
-  healthy_threshold   = 10
+  healthy_threshold   = 2
   unhealthy_threshold = 2
 }
 
