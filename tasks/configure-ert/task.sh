@@ -382,7 +382,7 @@ cf_properties=$(
           "cert_pem": $cert_pem,
           "private_key_pem": $private_key_pem
         },
-      ".properties.networking_point_of_entry.external_ssl.ssl_ciphers": { "value": TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384}
+      ".properties.networking_point_of_entry.external_ssl.ssl_ciphers": { "value": $router_tls_ciphers}
       }
     }
 
