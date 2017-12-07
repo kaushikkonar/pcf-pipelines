@@ -376,15 +376,12 @@ cf_properties=$(
 
     # SSL Termination
     {
-      ".properties.networking_point_of_entry": { "value": "external_ssl" },
-      ".properties.networking_point_of_entry.external_ssl.ssl_rsa_certificate": {
+      ".properties.networking_poe_ssl_cert": {
         "value": {
           "cert_pem": $cert_pem,
           "private_key_pem": $private_key_pem
         }
-      },
-      ".properties.networking_point_of_entry.external_ssl.ssl_ciphers": { "value": $router_tls_ciphers}
-
+      }
     }
 
 
