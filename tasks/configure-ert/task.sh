@@ -385,6 +385,42 @@ cf_properties=$(
     }
 
 
+    +
+    # HAProxy Forward TLS
+    if $haproxy_forward_tls == "enable" then
+      {
+        ".properties.haproxy_forward_tls": {
+          "value": "enable"
+        },
+        ".properties.haproxy_forward_tls.enable.backend_ca": {
+          "value": $haproxy_backend_ca
+        }
+      }
+    else
+      {
+        ".properties.haproxy_forward_tls": {
+          "value": "disable"
+        }
+      }
+    end
+    +
+    {
+      ".properties.routing_disable_http": {
+        "value": $routing_disable_http
+      }
+    }
+    +
+    # TLS Cipher Suites
+    {
+      ".properties.gorouter_ssl_ciphers": {
+        "value": $router_tls_ciphers
+      },
+      ".properties.haproxy_ssl_ciphers": {
+        "value": $haproxy_tls_ciphers
+      }
+    }
+
+
     '
 )
 
